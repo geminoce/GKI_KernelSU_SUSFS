@@ -1,0 +1,30 @@
+name: k1nDeR Kernel | vermeer | KSU-Next b427a3f9
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  build-vermeer-gki:
+    name: GKI 5.15.211 + built-in KSU Next b427a3f9
+    uses: ./.github/workflows/build.yml
+    with:
+      version: android13-5.15
+      android_version: android13
+      kernel_version: '5.15'
+      sublevel: '211'
+      os_patch_level: '2026-09'
+      variant: Normal
+      # Keep only SUSFS; do not enable third-party performance/network patches.
+      feature_set: 'SUSFS'
+      root_flavor: next
+      root_commit: b427a3f9c2421a443f961007bfce66b25486643f
+      brand_name: k1nDeR
+      keep_kmi: false
+      allow_version_mismatch: false
+      use_cache: false
+      page_size: 4k
+    secrets: inherit
