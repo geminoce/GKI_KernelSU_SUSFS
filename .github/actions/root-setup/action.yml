@@ -26,7 +26,7 @@ runs:
             manager="KernelSU Manager"
             ;;
           next)
-            repo="https://github.com/KernelSU-Next/KernelSU-Next.git"
+            repo="https://github.com/pershoot/KernelSU-Next.git"
             directory="KernelSU-Next"
             manager="KernelSU Next Manager"
             ;;
@@ -94,6 +94,19 @@ runs:
           echo "Root commit mismatch: expected $expected_commit, got $actual_commit." >&2
           exit 1
         fi
+        # k1nDeR: fail before expensive compilation if SUSFS is not integrated.
+        if [ "$flavor" = "next" ]; then
+          if ! grep -qx 'config KSU_SUSFS' "$directory/kernel/Kconfig"; then
+            echo "STOP: pinned KernelSU-Next source has no CONFIG_KSU_SUSFS in Kconfig" >&2
+            exit 1
+          fi
+          if ! grep -qx 'config KSU_SUSFS_SUS_PATH' "$directory/kernel/Kconfig"; then
+            echo "STOP: incomplete SUSFS Kconfig; refusing expensive build" >&2
+            exit 1
+          fi
+          echo "[k1nDeR preflight] SUSFS Kconfig found before patching and build"
+        fi
+
         if [ ! -f "$directory/kernel/Kconfig" ] || [ ! -f "$directory/kernel/Makefile" ]; then
           echo "Selected root checkout does not contain a kernel integration." >&2
           exit 1
