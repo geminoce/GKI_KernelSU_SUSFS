@@ -1,4 +1,4 @@
-name: k1nDeR Kernel | vermeer | KSU-Next b427a3f9
+name: k1nDeR Kernel | vermeer | KSU-Next b427a3f9 + SUSFS
 
 on:
   workflow_dispatch:
@@ -21,7 +21,8 @@ jobs:
       # Keep only SUSFS; do not enable third-party performance/network patches.
       feature_set: 'SUSFS'
       root_flavor: next
-      root_commit: b427a3f9c2421a443f961007bfce66b25486643f
+      # pershoot/dev-susfs contains b427a3f9 plus 13 compatibility commits.
+      root_commit: d21e0a66c887ae4bc75b7c9f83e41761819ec09a
       susfs_commit: 687d2d18d94cb2e3e72d1074778d58384d58e379
       brand_name: k1nDeR
       keep_kmi: false
